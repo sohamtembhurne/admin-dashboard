@@ -19,63 +19,23 @@ const DataGrid = () => {
 
   return (
     <div>
-      <h2>Data Grid</h2>
-      <table style={{ borderCollapse: "collapse", width: "100%" }}>
+      <h2 className="text-2xl font-bold mb-4">Data Grid</h2>
+      <table className="w-4/5 mx-auto bg-white border border-gray-300">
         <thead>
-          <tr>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              ID
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              Name
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              Email
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              Role
-            </th>
+          <tr className="bg-gray-100">
+            <th className="border border-gray-300 py-2 px-4">ID</th>
+            <th className="border border-gray-300 py-2 px-4">Name</th>
+            <th className="border border-gray-300 py-2 px-4">Email</th>
+            <th className="border border-gray-300 py-2 px-4">Role</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item) => (
-            <tr key={item.id}>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {item.id}
-              </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {item.name}
-              </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {item.email}
-              </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {item.role}
-              </td>
+            <tr key={item.id} className="border-b border-gray-300">
+              <td className="border border-gray-300 py-2 px-4">{item.id}</td>
+              <td className="border border-gray-300 py-2 px-4">{item.name}</td>
+              <td className="border border-gray-300 py-2 px-4">{item.email}</td>
+              <td className="border border-gray-300 py-2 px-4">{item.role}</td>
             </tr>
           ))}
         </tbody>
