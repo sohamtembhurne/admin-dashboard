@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchData } from "../utils/api";
 import DataTable from "./DataTable";
 import { DeleteIcon, SearchIcon } from "./Icons";
+import Toaster, { notifyDeleteMultiple } from "./Toaster";
 
 const DataGrid = () => {
   const [data, setData] = useState([]);
@@ -64,7 +65,9 @@ const DataGrid = () => {
 
   const handleEdit = (id) => {
     const updatedData = data.map((item) =>
-      item.id === id ? { ...item, editing: true, originalData: { ...item } } : item
+      item.id === id
+        ? { ...item, editing: true, originalData: { ...item } }
+        : item
     );
 
     setData(updatedData);
@@ -73,13 +76,14 @@ const DataGrid = () => {
 
   const handleCancel = (id) => {
     const updatedData = data.map((item) =>
-      item.id === id && item.editing ? { ...item.originalData, editing: false } : item
+      item.id === id && item.editing
+        ? { ...item.originalData, editing: false }
+        : item
     );
 
     setData(updatedData);
     setFilteredData(updatedData);
   };
-
 
   const handleInputChange = (id, field, value) => {
     const updatedData = data.map((item) =>
@@ -116,7 +120,7 @@ const DataGrid = () => {
     const updatedSelectedRows = selectedRows.includes(id)
       ? selectedRows.filter((selectedId) => selectedId !== id)
       : [...selectedRows, id];
-    
+
     setSelectedRows(updatedSelectedRows);
   };
 
@@ -129,6 +133,7 @@ const DataGrid = () => {
 
   return (
     <div className="py-4">
+      <Toaster />
       <h2 className="text-2xl font-bold mb-4">Data Grid</h2>
       <div className="flex justify-between mb-4 w-11/12 mx-auto">
         <div className="mb-4 flex">
@@ -149,7 +154,10 @@ const DataGrid = () => {
         </div>
         <div>
           <button
-            onClick={handleDeleteSelected}
+            onClick={() => {
+              handleDeleteSelected();
+              notifyDeleteMultiple(selectedRows.length);
+            }}
             disabled={selectedRows.length === 0}
             className={`p-3  rounded ${
               selectedRows.length === 0
@@ -183,7 +191,7 @@ const DataGrid = () => {
             </div>
           </div>
           <div className="flex justify-end mt-4">
-          <button
+            <button
               className="first-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
               onClick={() => setCurrentPage(1)}
               disabled={currentPage === 1}
@@ -220,7 +228,7 @@ const DataGrid = () => {
             <button
               className="last-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
               onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage===totalPages}
+              disabled={currentPage === totalPages}
             >
               {`>>`}
             </button>

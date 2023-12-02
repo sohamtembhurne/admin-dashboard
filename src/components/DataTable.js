@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { CancelIcon, DeleteIcon, EditIcon, SaveIcon } from "./Icons";
+import Toaster, { notifyDelete, notifyEdit } from "./Toaster";
 
 const DataTable = ({
   selectedRows,
@@ -43,10 +44,10 @@ const DataTable = ({
               exit={{ opacity: 0, y: 10, scaleY: 0.8 }}
               transition={{ duration: 0.5 }}
               className={`border-b cursor-pointer hover:bg-purple-100 ${
-                selectedRows.includes(item.id) ? "bg-purple-200 hover:bg-purple-200" : ""
-              } ${
-                item.editing ? "border-l border-l-red-400 bg-sky-50" : ""
-              }`}
+                selectedRows.includes(item.id)
+                  ? "bg-purple-200 hover:bg-purple-200"
+                  : ""
+              } ${item.editing ? "border-l border-l-red-400 bg-sky-50" : ""}`}
             >
               <td className="text-center">
                 <input
@@ -111,7 +112,10 @@ const DataTable = ({
                 {item.editing ? (
                   <>
                     <button
-                      onClick={() => handleSave(item.id)}
+                      onClick={() => {
+                        handleSave(item.id);
+                        notifyEdit();
+                      }}
                       className="saveButton text-green-500 p-2 rounded-md mr-2 hover:bg-green-600 hover:text-white"
                     >
                       <SaveIcon />
@@ -132,7 +136,10 @@ const DataTable = ({
                       <EditIcon />
                     </button>
                     <button
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => {
+                        handleDelete(item.id);
+                        notifyDelete();
+                      }}
                       className="deleteButton text-red-500 p-2 rounded-md hover:bg-red-600 hover:text-white"
                     >
                       <DeleteIcon />
@@ -144,6 +151,7 @@ const DataTable = ({
           ))}
         </tbody>
       </table>
+      <Toaster />
     </div>
   );
 };
