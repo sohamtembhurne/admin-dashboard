@@ -90,6 +90,7 @@ const DataGrid = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
     <div>
@@ -216,26 +217,11 @@ const DataGrid = () => {
         </tbody>
       </table>
 
-      <div className="mt-4">
-        <button
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous Page
-        </button>
-        <span className="mx-4">{`Page ${currentPage} / ${Math.ceil(
-          filteredData.length / itemsPerPage
-        )}`}</span>
-        <button
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={indexOfLastItem >= filteredData.length}
-        >
-          Next Page
-        </button>
-      </div>
-
-      <div className="flex justify-between mt-4">
+      <div className="flex justify-between items-center mt-4 w-4/5 mx-auto">
         <div>
+          <div>
+            {`${selectedRows.length} of ${filteredData.length} rows selected`}
+          </div>
           <button
             onClick={handleDeleteSelected}
             disabled={selectedRows.length === 0}
@@ -245,6 +231,36 @@ const DataGrid = () => {
           >
             Delete Selected
           </button>
+        </div>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous Page
+          </button>
+          <span>{`Page ${currentPage} / ${totalPages}`}</span>
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={indexOfLastItem >= filteredData.length}
+          >
+            Next Page
+          </button>
+        </div>
+        <div className="flex justify-end mt-4">
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+            (page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-2 py-1 border ${
+                  page === currentPage ? "bg-gray-300" : ""
+                }`}
+              >
+                {page}
+              </button>
+            )
+          )}
         </div>
       </div>
     </div>
