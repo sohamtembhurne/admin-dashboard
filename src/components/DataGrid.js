@@ -116,6 +116,7 @@ const DataGrid = () => {
     const updatedSelectedRows = selectedRows.includes(id)
       ? selectedRows.filter((selectedId) => selectedId !== id)
       : [...selectedRows, id];
+    
     setSelectedRows(updatedSelectedRows);
   };
 
@@ -137,7 +138,7 @@ const DataGrid = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyPress}
-            className="px-4 py-2 border border-gray-300 rounded-l-lg"
+            className="search-icon px-4 py-2 border border-gray-300 rounded-l-lg"
           />
           <button
             onClick={handleSearch}
@@ -182,8 +183,15 @@ const DataGrid = () => {
             </div>
           </div>
           <div className="flex justify-end mt-4">
+          <button
+              className="first-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+            >
+              {`<<`}
+            </button>
             <button
-              className="px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
+              className="previous-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
             >
@@ -203,11 +211,18 @@ const DataGrid = () => {
               )
             )}
             <button
-              className="px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
+              className="next-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={indexOfLastItem >= filteredData.length}
             >
               {`>`}
+            </button>
+            <button
+              className="last-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage===totalPages}
+            >
+              {`>>`}
             </button>
           </div>
         </div>

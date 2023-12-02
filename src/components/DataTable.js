@@ -1,5 +1,5 @@
-// TableComponent.js
 import React from "react";
+import { motion } from "framer-motion";
 import { CancelIcon, DeleteIcon, EditIcon, SaveIcon } from "./Icons";
 
 const DataTable = ({
@@ -15,9 +15,11 @@ const DataTable = ({
 }) => {
   return (
     <div>
-      <table className="w-11/12 mx-auto bg-[#4dcd874f] border rounded-lg">
+      {/* <table className="w-11/12 mx-auto bg-[#4dcd874f] border rounded-lg"> */}
+      <table className="w-11/12 mx-auto bg-white border rounded-lg">
         <thead>
-          <tr className="bg-[#1f5236] text-white">
+          {/* <tr className="bg-[#1f5236] text-white"> */}
+          <tr className="bg-gray-100">
             <th className="text-center py-2 px-4 w-16">
               <input
                 type="checkbox"
@@ -27,28 +29,37 @@ const DataTable = ({
               />
             </th>
             <th className="py-4 px-4 border-r-2 w-48">Name</th>
-            <th className="py-4 px-4 w-64">Email</th>
-            <th className="py-4 px-4 w-32">Role</th>
-            <th className="py-4 px-4 w-48">Actions</th>
+            <th className="py-4 px-4 border-r-2 w-64">Email</th>
+            <th className="py-4 px-4 border-r-2 w-32">Role</th>
+            <th className="py-4 px-4 border-r-2 w-48">Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentItems.map((item) => (
-            <tr
+            <motion.tr
               key={item.id}
-              className={`border-b cursor-pointer ${
-                selectedRows.includes(item.id) ? "bg-gray-200" : ""
-              } ${item.editing ? "border-l border-l-red-400 bg-yellow-50" : ""}`}
+              initial={{ opacity: 0, y: -10, scaleY: 0.8 }}
+              animate={{ opacity: 1, y: 0, scaleY: 1 }}
+              exit={{ opacity: 0, y: 10, scaleY: 0.8 }}
+              transition={{ duration: 0.5 }}
+              className={`border-b cursor-pointer hover:bg-purple-100 ${
+                selectedRows.includes(item.id) ? "bg-purple-200 hover:bg-purple-200" : ""
+              } ${
+                item.editing ? "border-l border-l-red-400 bg-sky-50" : ""
+              }`}
             >
               <td className="text-center">
                 <input
+                  className="h-5 w-5 accent-purple-500"
                   type="checkbox"
                   checked={selectedRows.includes(item.id)}
                   onChange={() => handleRowSelect(item.id)}
-                  className="h-5 w-5"
                 />
               </td>
-              <td className="py-3 px-4">
+              <td
+                onClick={() => !item.editing && handleRowSelect(item.id)}
+                className="py-3 px-4"
+              >
                 {item.editing ? (
                   <input
                     type="text"
@@ -56,13 +67,16 @@ const DataTable = ({
                     onChange={(e) =>
                       handleInputChange(item.id, "name", e.target.value)
                     }
-                    className="w-full rounded-md text-center"
+                    className="w-full py-1 rounded-md text-center"
                   />
                 ) : (
                   item.name
                 )}
               </td>
-              <td className="py-3 px-4 h-12">
+              <td
+                onClick={() => !item.editing && handleRowSelect(item.id)}
+                className="py-3 px-4 h-12"
+              >
                 {item.editing ? (
                   <input
                     type="text"
@@ -70,13 +84,16 @@ const DataTable = ({
                     onChange={(e) =>
                       handleInputChange(item.id, "email", e.target.value)
                     }
-                    className="w-full rounded-md text-center"
+                    className="w-full py-1 rounded-md text-center"
                   />
                 ) : (
                   item.email
                 )}
               </td>
-              <td className="py-3 px-4 h-12">
+              <td
+                onClick={() => !item.editing && handleRowSelect(item.id)}
+                className="py-3 px-4 h-12"
+              >
                 {item.editing ? (
                   <input
                     type="text"
@@ -84,7 +101,7 @@ const DataTable = ({
                     onChange={(e) =>
                       handleInputChange(item.id, "role", e.target.value)
                     }
-                    className="w-full rounded-md text-center "
+                    className="w-full py-1 rounded-md text-center "
                   />
                 ) : (
                   item.role
@@ -95,13 +112,13 @@ const DataTable = ({
                   <>
                     <button
                       onClick={() => handleSave(item.id)}
-                      className="text-green-500 p-2 rounded-md mr-2 hover:bg-green-600 hover:text-white"
+                      className="saveButton text-green-500 p-2 rounded-md mr-2 hover:bg-green-600 hover:text-white"
                     >
                       <SaveIcon />
                     </button>
                     <button
                       onClick={() => handleCancel(item.id)}
-                      className="p-2 rounded-md mr-2 hover:bg-red-500 hover:text-white"
+                      className="cancelButton p-2 rounded-md mr-2 hover:bg-red-500 hover:text-white"
                     >
                       <CancelIcon />
                     </button>
@@ -110,20 +127,20 @@ const DataTable = ({
                   <>
                     <button
                       onClick={() => handleEdit(item.id)}
-                      className="text-blue-500 p-2 rounded-md mr-2 hover:bg-blue-600 hover:text-white"
+                      className="editButton text-blue-500 p-2 rounded-md mr-2 hover:bg-blue-600 hover:text-white"
                     >
                       <EditIcon />
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="text-red-500 p-2 rounded-md hover:bg-red-600 hover:text-white"
+                      className="deleteButton text-red-500 p-2 rounded-md hover:bg-red-600 hover:text-white"
                     >
                       <DeleteIcon />
                     </button>
                   </>
                 )}
               </td>
-            </tr>
+            </motion.tr>
           ))}
         </tbody>
       </table>
