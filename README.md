@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# About
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an interface for admins to see and delete users. The users will be provided via an API. The sample API response is as follows -
 
-## Available Scripts
+```js
+[
+	{
+	"id": "1",
+	"name": "Aaron Miles",
+	"email": "aaron@mailinator.com",
+	"role": "member"
+	},
+	{
+	"id": "2",
+	"name": "Aishwarya Naik",
+	"email": "aishwarya@mailinator.com",
+	"role": "member"
+	},
+    ...
+]
 
-In the project directory, you can run:
+```
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The technologies used in implementation of this user interface are -
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. React.Js
+2. Tailwind CSS
+3. Framer Motion
 
-### `npm test`
+Other packages used are -
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- axios
+- react-icons
+- react-toastify
 
-### `npm run build`
+# UI
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<img src = "public/admin_dashboard.png">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You can check out the deployed site [here](https://admin-dashboard-dbgk.onrender.com)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Features
 
-### `npm run eject`
+Some terminologies used are
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `Data` -> Entire data fetched from API stored in this variable
+- `SelectedRow` -> Variable that stores id's of all selected rows
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. Search Bar
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The seach bar on the top handles searching/filtering on any type of property. The search can be triggered using the search icon on right of the search bar or by pressing the "Enter" key on the keyboard. The codebase for the same is seen in `components/SeachBar.jsx`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 2. Edit Row
 
-## Learn More
+The `EditIcon` (pencil icon) in the right of each row will set the row to editing mode (This is visible by change in background color of the row). Now the user can either save the changes to row or cancel all the changes he made to the row.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 3. Delete Row
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The `DeleteIcon` (bin icon) besides the `EditIcon` will delete the row from the memory. All the changes are being performed in the memory itself. This removes the row from `data` itself.
 
-### Code Splitting
+### 4. Select Row
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+One or multiple rows can be selected/deselected by using the checkbox or clicking on the contents of the row on the leftmost column of each row. This is done by using a useState variable [selectedRows] in which rows are added/removed. Selected row is grayish in color.
 
-### Analyzing the Bundle Size
+### 5. Delete Selected Rows
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The `DeleteIcon` in top right of the page is responsible for deletion of selected rows. This removes all the selected rows from the `data`.
 
-### Making a Progressive Web App
+### 6. Pagination
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The pagination is performed by limiting the number of rows per page. According to requirement, only 10 rows are shown per page. This can be changed by updating `itemsPerPage` variable in `DataGrid.jsx`. Also, there are several buttons which can be used to control the navigation between pages. There are also special buttons for navigating to first page and last page.
 
-### Advanced Configuration
+## Other User Experience Features Added
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Added Toasts for feedback
 
-### Deployment
+<img src = "public/delete.png" width = "200px">
+<br>
+<img src = "public/edit.png" width = "200px">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Added animations using framer motion
 
-### `npm run build` fails to minify
+Transition was added and many more. You can checkout demo video below
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<video src="demo.mp4" controls title="Demonstration"></video>
