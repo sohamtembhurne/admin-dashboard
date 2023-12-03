@@ -62,7 +62,7 @@ const DataGrid = () => {
     setFilteredData(filtered);
   };
 
-  //function to hanlde key press event
+  //function to handle key press event
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
