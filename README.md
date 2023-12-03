@@ -84,4 +84,4 @@ The pagination is performed by limiting the number of rows per page. According t
 
 Transition was added and many more. You can checkout demo video below
 
-<video src="demo.mp4" controls title="Demonstration"></video>
+<video src="public/demo.mp4" controls title="Demonstration"></video>
