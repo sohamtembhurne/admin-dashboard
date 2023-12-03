@@ -80,8 +80,5 @@ The pagination is performed by limiting the number of rows per page. According t
 <br>
 <img src = "public/edit.png" width = "200px">
 
-### Added animations using framer motion
+### Added animations to DataTable using framer motion
 
-Transition was added and many more. You can checkout demo video [here](public/demo.mp4)
-
-<video src="public/demo.mp4" controls title="Demonstration"></video>
