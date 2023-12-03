@@ -82,6 +82,6 @@ The pagination is performed by limiting the number of rows per page. According t
 
 ### Added animations using framer motion
 
-Transition was added and many more. You can checkout demo video below
+Transition was added and many more. You can checkout demo video [here](public/demo.mp4)
 
 <video src="public/demo.mp4" controls title="Demonstration"></video>
