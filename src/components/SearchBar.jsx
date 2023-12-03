@@ -2,7 +2,7 @@ import React from 'react';
 import { SearchIcon } from './Icons';
 
 const SearchBar = ({ searchTerm, onSearchTermChange, onSearch, onKeyDown }) => (
-  <div className="mb-4 flex">
+  <div className="flex">
     <input
       type="text"
       placeholder="Search..."

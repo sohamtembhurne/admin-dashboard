@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchData } from "../utils/api";
+import { fetchData } from "../utils/fetchData";
 import DataTable from "./DataTable";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
@@ -50,7 +50,7 @@ const DataGrid = () => {
   //   setSearchTerm(e.target.value);
   // };
 
-  //function to handle search and
+  //function to handle search
   const handleSearch = () => {
     const filtered = data.filter(
       (item) =>
@@ -148,8 +148,7 @@ const DataGrid = () => {
   return (
     <div className="py-4">
       <Toaster />
-      <h2 className="text-2xl font-bold mb-4">Data Grid</h2>
-      <div className="flex justify-between mb-4 w-11/12 mx-auto">
+      <div className="flex justify-between items-center my-4 w-11/12 mx-auto">
         <SearchBar
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
