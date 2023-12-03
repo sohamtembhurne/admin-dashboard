@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { CancelIcon, DeleteIcon, EditIcon, SaveIcon } from "./Icons";
-import Toaster, { notifyDelete, notifyEdit } from "./Toaster";
+import { notifyDelete, notifyEdit } from "./Toaster";
 
 const DataTable = ({
   selectedRows,
@@ -16,10 +16,8 @@ const DataTable = ({
 }) => {
   return (
     <div>
-      {/* <table className="w-11/12 mx-auto bg-[#4dcd874f] border rounded-lg"> */}
       <table className="w-11/12 mx-auto bg-white border rounded-lg">
         <thead>
-          {/* <tr className="bg-[#1f5236] text-white"> */}
           <tr className="bg-gray-100">
             <th className="text-center py-2 px-4 w-16">
               <input
@@ -151,7 +149,6 @@ const DataTable = ({
           ))}
         </tbody>
       </table>
-      <Toaster />
     </div>
   );
 };

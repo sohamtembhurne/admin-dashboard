@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../utils/api";
 import DataTable from "./DataTable";
-import { DeleteIcon, SearchIcon } from "./Icons";
+import Pagination from "./Pagination";
+import SearchBar from "./SearchBar";
+import DeleteButton from "./DeleteButton";
 import Toaster, { notifyDeleteMultiple } from "./Toaster";
 
 const DataGrid = () => {
@@ -17,6 +19,7 @@ const DataGrid = () => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
+  //function to fetch json data from ENDPOINT
   const fetchApiData = async () => {
     try {
       const jsonData = await fetchData();
@@ -27,6 +30,7 @@ const DataGrid = () => {
     }
   };
 
+  //useEffect hook to fetch adad
   useEffect(() => {
     fetchApiData();
   }, []);
@@ -46,6 +50,7 @@ const DataGrid = () => {
   //   setSearchTerm(e.target.value);
   // };
 
+  //function to handle search and
   const handleSearch = () => {
     const filtered = data.filter(
       (item) =>
@@ -57,12 +62,14 @@ const DataGrid = () => {
     setFilteredData(filtered);
   };
 
+  //function to hanlde key press event
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
 
+  //function to handle edit mode for certain row
   const handleEdit = (id) => {
     const updatedData = data.map((item) =>
       item.id === id
@@ -74,6 +81,7 @@ const DataGrid = () => {
     setFilteredData(updatedData);
   };
 
+  //function to cancel edit mode for certain row
   const handleCancel = (id) => {
     const updatedData = data.map((item) =>
       item.id === id && item.editing
@@ -85,6 +93,7 @@ const DataGrid = () => {
     setFilteredData(updatedData);
   };
 
+  //function to handle input change in editable row
   const handleInputChange = (id, field, value) => {
     const updatedData = data.map((item) =>
       item.id === id ? { ...item, [field]: value } : item
@@ -93,12 +102,14 @@ const DataGrid = () => {
     setFilteredData(updatedData);
   };
 
+  //function to handle deletion of a certain row
   const handleDelete = (id) => {
     const updatedData = data.filter((item) => item.id !== id);
     setData(updatedData);
     setFilteredData(updatedData);
   };
 
+  //function to handle saves for editable row
   const handleSave = (id) => {
     const updatedData = data.map((item) =>
       item.id === id ? { ...item, editing: false } : item
@@ -107,6 +118,7 @@ const DataGrid = () => {
     setFilteredData(updatedData);
   };
 
+  //function to select all rows on current page
   const handleSelectAll = () => {
     const allIdsOnCurrentPage = currentItems.map((item) => item.id);
     const updatedSelectedRows =
@@ -116,6 +128,7 @@ const DataGrid = () => {
     setSelectedRows(updatedSelectedRows);
   };
 
+  //function to select/deselect a certain row
   const handleRowSelect = (id) => {
     const updatedSelectedRows = selectedRows.includes(id)
       ? selectedRows.filter((selectedId) => selectedId !== id)
@@ -124,6 +137,7 @@ const DataGrid = () => {
     setSelectedRows(updatedSelectedRows);
   };
 
+  //function to delete selected row(s) on page
   const handleDeleteSelected = () => {
     const updatedData = data.filter((item) => !selectedRows.includes(item.id));
     setData(updatedData);
@@ -136,104 +150,40 @@ const DataGrid = () => {
       <Toaster />
       <h2 className="text-2xl font-bold mb-4">Data Grid</h2>
       <div className="flex justify-between mb-4 w-11/12 mx-auto">
-        <div className="mb-4 flex">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className="search-icon px-4 py-2 border border-gray-300 rounded-l-lg"
-          />
-          <button
-            onClick={handleSearch}
-            className="px-4 py-2 bg-blue-500 text-white rounded-r-lg"
-          >
-            <SearchIcon />
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              handleDeleteSelected();
-              notifyDeleteMultiple(selectedRows.length);
-            }}
-            disabled={selectedRows.length === 0}
-            className={`p-3  rounded ${
-              selectedRows.length === 0
-                ? "cursor-not-allowed bg-gray-300"
-                : "bg-red-500 text-white"
-            }`}
-          >
-            <DeleteIcon />
-          </button>
-        </div>
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchTermChange={setSearchTerm}
+          onSearch={handleSearch}
+          onKeyDown={handleKeyPress}
+        />
+        <DeleteButton
+          onClick={handleDeleteSelected}
+          disabled={selectedRows.length === 0}
+          selectedRows={selectedRows}
+          notifyDeleteMultiple={notifyDeleteMultiple}
+        />
       </div>
       <div className="flex flex-col text-left">
-        <div>
-          <DataTable
-            selectedRows={selectedRows}
-            currentItems={currentItems}
-            handleSelectAll={handleSelectAll}
-            handleRowSelect={handleRowSelect}
-            handleInputChange={handleInputChange}
-            handleSave={handleSave}
-            handleEdit={handleEdit}
-            handleCancel={handleCancel}
-            handleDelete={handleDelete}
-          />
-        </div>
+        <DataTable
+          selectedRows={selectedRows}
+          currentItems={currentItems}
+          handleSelectAll={handleSelectAll}
+          handleRowSelect={handleRowSelect}
+          handleInputChange={handleInputChange}
+          handleSave={handleSave}
+          handleEdit={handleEdit}
+          handleCancel={handleCancel}
+          handleDelete={handleDelete}
+        />
 
-        <div className="flex justify-between items-center mt-4 w-11/12 mx-auto">
-          <div className="flex">
-            <div className="px-2 py-1 text-gray-500">
-              {` ${selectedRows.length} of ${filteredData.length} row(s) selected`}
-            </div>
-          </div>
-          <div className="flex justify-end mt-4">
-            <button
-              className="first-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-            >
-              {`<<`}
-            </button>
-            <button
-              className="previous-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              {`<`}
-            </button>
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-2 py-1 mx-1 border ${
-                    page === currentPage ? "bg-blue-100 text-blue-500" : ""
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            )}
-            <button
-              className="next-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={indexOfLastItem >= filteredData.length}
-            >
-              {`>`}
-            </button>
-            <button
-              className="last-page px-2 py-1 border cursor-pointer hover:bg-blue-100 hover:text-blue-400"
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage === totalPages}
-            >
-              {`>>`}
-            </button>
-          </div>
-        </div>
+        <Pagination
+          selectedRows={selectedRows}
+          filteredData={filteredData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          indexOfLastItem={indexOfLastItem}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );
